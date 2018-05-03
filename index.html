@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)https://www.pythonanywhere.com/user/fl1210/files/home/fl1210/mysite/index.html -->
+<html class="gr__pythonanywhere_com"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width">
+    <title>NYC Cuisine by Zipcode</title>
+    <script src="./index_files/react-with-addons-15.1.0.js.下载"></script>
+    <script src="./index_files/react-dom-15.1.0.js.下载"></script>
+    <script src="./index_files/browser.js.下载"></script>
+    <script src="./index_files/vega@3"></script>
+    <script src="./index_files/vega-lite@2"></script>
+    <script src="./index_files/vega-embed@3"></script>
+
+</head>
+<body data-gr-c-s-loaded="true">
+<div id="ui"><div data-reactroot=""><form><table><tr><h1>New York Cuisines</h1><p><!-- react-text: 7 -->ZipCode:<!-- /react-text --><input type="text"></p><p><input type="submit" size="25" value="update"></p></tr></table></form></div></div>
+<div id="vis"></div>
+<script type="text/babel">
+    class AppSelectingForm extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                zipcode: '',
+            };
+            this.handleChange = this.handleChange.bind(this);
+            this.handleSubmit = this.handleSubmit.bind(this);
+        }
+        handleChange(event) {
+            this.setState({
+                value: event.target.value
+            });
+        }
+        handleSubmit(event) {
+            var spec = `/vis/${this.state.value}`;
+            vegaEmbed('#vis', spec, {actions:false});
+            event.preventDefault();
+        }
+        render() {
+            return (
+                <form onSubmit={this.handleSubmit}>
+                    <table>
+                        <tr>
+                            <h1>New York Cuisines</h1>
+                            <p>ZipCode:<input type="text" value={this.state.value} onChange={this.handleChange}/></p>
+                            <p><input type="submit" size="25" value="update" /></p>
+                        </tr>
+                    </table>
+                </form>
+            );
+        }
+    }
+    ReactDOM.render(
+        <div>
+            <AppSelectingForm />
+        </div>,
+        document.getElementById('ui')
+    );
+</script>
+
+
+</body></html>
