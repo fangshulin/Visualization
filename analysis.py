@@ -6,15 +6,10 @@ def loadData():
     import os
     cur_dir = os.path.dirname(__file__)
     restaurants = json.load(open(os.path.join(cur_dir, 'nyc_restaurants_by_cuisine.json'), 'r'))
-    pre_df = []
-    pre_dict = {}
-    for d in restaurants:
-        pre_dict['name'] = d['cuisine']
-        for zipcode,num in d['perZip'].items():
-            pre_dict['zipcode'] = zipcode
-            pre_dict['num'] = num
-            pre_df.append(pre_dict.copy())
-    df_restaurant = pd.DataFrame(pre_df)
+
+    df_restaurant = pd.DataFrame(((d['cuisine'], number, zipcode)
+                      for d in restaurants
+                      for zipcode, number in d['perZip'].items()),columns=['name', 'num', 'zipcode'])
     return df_restaurant
 
 
@@ -27,7 +22,7 @@ def createChart(data, zipcode):
         maxCount = int(data['num'].max())
     except ValueError:
         maxCount = 10
-        data = pd.DataFrame([{"name":"undefine", "num":0}])
+        data = pd.DataFrame([{"name":"no this zipcode", "num":0}])
 
     Number = alt.Chart(data)\
               .mark_bar(stroke="Black")\
